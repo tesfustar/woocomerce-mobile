@@ -10,13 +10,13 @@ const DetailsScreen = ({route}) => {
   console.log(product)
     const images =[
         {
-          image:require('../assets/4.jpg'),
+          image:require('../../assets/4.jpg'),
         },
         {
-         image:require('../assets/2.jpg'),
+         image:require('../../assets/2.jpg'),
         },
         {
-            image:require('../assets/3.jpg'),
+            image:require('../../assets/3.jpg'),
        }
     ]
   return (

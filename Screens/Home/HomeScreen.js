@@ -7,20 +7,39 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-
-import {sampleData} from './data'
+import { useTheme as useContextTheme } from '../../context/ThemeContext';
+import { useSelector } from 'react-redux';
+import {sampleData} from '../data'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { useQuery } from 'react-query'
 const HomeScreen = ({navigation}) => {
+  const categories = useSelector((state) => state.category);
+  const headers={
+    "Content-Type":"Application/json",
+    "Accept":"Application/json",
+    // "Authorization":`Bearer ${token}`
+  }
+const CategoriesData=useQuery('categoriesDataApi',async()=>
+await axios.get('http://192.168.0.109:5000/api/category',{headers}),
+{
+  keepPreviousData:false,
+  refetchOnWindowFocus:false,
+  // enabled:!!token
+}
+)
+
     const [scrollEnabled,setScrollEnabled]=useState(false)
     const refRBSheet = useRef();
     const enableScroll = () => setScrollEnabled(true);
     const disableScroll = () =>setScrollEnabled(true);
-    const darkTheme=false
+    const {handleChange,darkMode} =useContextTheme()
     const Card=({product})=>{
         return(
 
             <TouchableOpacity activeOpacity={0.7} 
             onPress={()=>navigation.navigate('Details',product)}>
-            <View style={styles.card}>
+            <View style={[styles.card,{backgroundColor:darkMode ? '#262626':'#fff'}]}>
           
             <View style={{height:120,alignItems:'center',overflow:'hidden'}}>
               
@@ -30,7 +49,7 @@ const HomeScreen = ({navigation}) => {
             <View style={{ padding:4,}}>
             <View style={{flexDirection:'row',alignContent:'center',justifyContent:'space-between'}}>
             <Text style={{fontFamily:'Roboto-Bold',color:'rgb(51,65,85)',
-            fontSize:16}}>ETB 150</Text>
+            fontSize:16,color:darkMode ? '#fff' : '#1E293B'}}>ETB 150</Text>
             <TouchableOpacity >
             <FontAwesome  name='bookmark-o' size={20} color='#EF4444' />
             </TouchableOpacity>
@@ -57,10 +76,11 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
          </View>
      <View style={{flexDirection:'row',alignItems:'center'}}>
-       <View style={styles.searchcontainer}>
+       <View style={[styles.searchcontainer,{backgroundColor:darkMode ? '#404040' : 'white',borderRadius:5}]}>
        <Ionicons  name="ios-search" size={20} color="#EF4444" style={{marginRight:5}}/>
            <TextInput 
         placeholder='Find car,Homes,mobile phones and more...'
+        style={{color:darkMode ? '#fff' : '#1E293B'}}
         />
        </View>
        <TouchableOpacity activeOpacity={0.8} onPress={() => refRBSheet.current.open()} >
@@ -71,30 +91,28 @@ const HomeScreen = ({navigation}) => {
      <View style={styles.footer}>
          <ScrollView showsVerticalScrollIndicator={false} verical={true}>
              <View style={styles.footertext}>
-                 <Text style={{fontFamily:'Roboto-Medium',fontSize:14}}>Browse Categories</Text>
+                 <Text style={{fontFamily:'Roboto-Medium',fontSize:14,color:darkMode ? '#fff' : 'black'}}>Browse Categories</Text>
                  <TouchableOpacity activeOpacity={0.6} onPress={()=>navigation.navigate('CatList')}>
                  <Text style={{fontFamily:'Roboto-Bold',fontSize:15,color:'#F87171'}}>View All</Text>
                  </TouchableOpacity>
              </View>
              <View style={styles.categoryContainer} >
-                 <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6} onPress={()=>navigation.navigate('Category',{name:"Electronics"})}>
+          
+               {CategoriesData?.isFetched ? (
+                 CategoriesData?.data?.data?.slice(0,3)?.map((item)=>(
+                  <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6} key={item._id}
+                  onPress={()=>navigation.navigate('Category',item)}>
                  <View style={styles.categoryIcon}>
-                 <Entypo  name="tablet-mobile-combo" size={28} color='#EF4444' style={{marginRight:5}}/>
-                 <Text style={styles.categoryText} >Electronics</Text>
+                 <Image  source={{uri: item.image}} 
+                   style={{width: 40, height: 40}} />
+                 
+                <Text style={styles.categoryText} >{item.name}</Text>
                  </View>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6}>
-                 <View style={styles.categoryIcon}>
-                 <Image source={require('../assets/health.png')}  style={{height:40,width:40}}/>
-                 <Text style={styles.categoryText} >Health</Text>
-                 </View>
-                 </TouchableOpacity>
-                 <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6}>
-                 <View style={styles.categoryIcon}>
-                 <MaterialCommunityIcons  name="table-furniture" size={28} color='#EF4444' style={{marginRight:5}}/>
-                <Text style={styles.categoryText} >Furniture</Text>
-                 </View>
-                 </TouchableOpacity>
+                 ))
+               ):(
+                <Text>Loading</Text>
+               )}
              </View>
              <View style={styles.categoryContainer}>
                  <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6}>
@@ -111,7 +129,7 @@ const HomeScreen = ({navigation}) => {
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.categoryBtn} activeOpacity={0.6}>
                  <View style={styles.categoryIcon}>
-                 <Image source={require('../assets/health.png')}  style={{height:40,width:40}}/>
+                 <Image source={require('../../assets/health.png')}  style={{height:40,width:40}}/>
                 <Text style={styles.categoryText} >Health</Text>
                  </View>
                  </TouchableOpacity>
@@ -193,7 +211,7 @@ export default HomeScreen
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#000'
+        // backgroundColor:'red'
     },
     header:{
         flex:1,
@@ -222,7 +240,7 @@ const styles = StyleSheet.create({
         marginTop:5,
         marginHorizontal:10,
         borderRadius:8,
-        backgroundColor:'#fff',
+        // backgroundColor:'#fff',
         flex:1
     },
     footertext:{
@@ -265,7 +283,8 @@ const styles = StyleSheet.create({
     categoryText:{
         paddingTop:3,
         fontFamily:'Roboto-Medium',
-        fontSize:14
+        fontSize:12,
+        textAlign:'center'
     },
     card:{
 

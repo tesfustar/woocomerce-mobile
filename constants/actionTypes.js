@@ -1,0 +1,3 @@
+export const FETCH_ALL_CATEGORY = 'FETCH_ALL_CATEGORY';
+export const ISLOADING = 'ISLOADING';
+export const ENDLOADING = 'ENDLOADING';

@@ -7,22 +7,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import React from 'react'
-import HomeScreen from '../Screens/HomeScreen'
-import ProfileScreen from '../Screens/ProfileScreen'
-import MessagesScreen from '../Screens/MessagesScreen';
-import DetailsScreen from '../Screens/DetailsScreen';
-import CreateScreen from '../Screens/CreateScreen';
-import NotificationScreen from '../Screens/NotificationScreen'
-import CategoryProductScreen from '../Screens/CategoryProductScreen';
-import BussinessDetailScreen from '../Screens/BussinessDetailScreen';
-import BussinessScreen from '../Screens/BussinessScreen'
-import ChatScreen from '../Screens/ChatScreen';
-import CategoryListScreen from '../Screens/CategoryListScreen'
 import { createStackNavigator } from '@react-navigation/stack';
 import { TransitionSpecs } from '@react-navigation/stack';
 import { TransitionPresets } from '@react-navigation/stack';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { HomeScreen,ProfileScreen,MessagesScreen ,NotificationScreen,CategoryProductScreen,ChatScreen,
+  DetailsScreen,CreateScreen,BussinessDetailScreen,BussinessScreen,CategoryListScreen,} from '../Screens';
 
 const HomeStack = createStackNavigator();
 const ChatStack = createStackNavigator();
@@ -145,7 +136,7 @@ const HomeStackScreen = ({ navigation, route }) => {
         
         tabBarLabelStyle: { fontSize: 15,fontFamily:'Roboto-Bold' ,color:'white',
          display: tabBarrVisibility(route)},
-        // tabBarItemStyle: { width: 100 },
+        
         swipeEnabled:false,
         tabBarStyle: { backgroundColor: '#EF4444', display: tabBarrVisibility(route) },
       })}>

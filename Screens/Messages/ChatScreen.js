@@ -2,8 +2,8 @@ import { StyleSheet, Text, View ,TextInput,TouchableOpacity,ImageBackground ,Ima
 import React,{useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { Messages } from './data'
-import {sampleData} from './data'
+import { Messages } from '../data'
+import {sampleData} from '../data'
 // import LottieView from 'lottie-react-native';
 const ChatScreen = ({navigation}) => {
     const [referashing,setRefreshing]=useState(false)

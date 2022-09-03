@@ -13,7 +13,7 @@ import {
 import HeaderImageScrollView, {
     TriggeringView,
   } from 'react-native-image-header-scroll-view';
-  import {sampleData} from './data'
+  import {sampleData} from '../data'
   import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MapView,{enableLatestRenderer } from 'react-native-maps';
@@ -66,7 +66,7 @@ const BussinessDetailScreen = ({navigation}) => {
      </Animatable.View>
  )}
       renderHeader={() => (
-          <Image source={require("../assets/1.jpg")} style={styles.image} />
+          <Image source={require("../../assets/1.jpg")} style={styles.image} />
           )}
           renderForeground={() => (
             <View style={styles.titleContainer} >

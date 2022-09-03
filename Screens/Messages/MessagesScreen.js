@@ -14,7 +14,7 @@ const MessagesScreen = () => {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: require('../assets/6.jpg'),
+          avatar: require('../../assets/6.jpg'),
         },
       },
     ])

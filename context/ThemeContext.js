@@ -1,8 +1,8 @@
 import React,{useContext,createContext,useState} from 'react'
 
 const ThemeContext=createContext()
-
-export const ThemeProvider=({children})=>{
+export const useTheme=()=>useContext(ThemeContext)
+const ThemeProvider=({children})=>{
     const [darkMode,SetDarkMode]=useState(false)
 
     const handleChange=()=>{
@@ -16,6 +16,5 @@ export const ThemeProvider=({children})=>{
 }
 
 
-export const useTheme=()=>useContext(ThemeContext)
 
 export default ThemeProvider

@@ -3,9 +3,12 @@ import React,{useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import {sampleData} from './data'
+import {sampleData} from '../data'
 // import LottieView from 'lottie-react-native';
-const CategoryProductScreen = ({navigation}) => {
+const CategoryProductScreen = ({navigation,route}) => {
+      const categories=route.params;
+      console.log(categories?.subCategory)
+      const [subCategories,setSubCategories]=useState(categories?.subCategory)
     const [referashing,setRefreshing]=useState(false)
     const Card=({product})=>{
         return(
@@ -36,20 +39,42 @@ const CategoryProductScreen = ({navigation}) => {
             </TouchableOpacity>
         )
     }
+    const CategoryCard=({product})=>{
+     return(
+      <TouchableOpacity activeOpacity={0.7} 
+      // onPress={()=>navigation.navigate('Details',product)}
+      >
+      <View style={styles.Categorycard}>
+    
+      <View style={{alignItems:'center',overflow:'hidden'}}>
+      <Image  source={{uri: product.image}} 
+                 style={{width: 30, height: 30}} />
+      </View>
+      <View style={{ padding:4,}}>
+    
+      <Text 
+      style={{fontFamily:'Roboto-Bold ',color:'black',fontSize:15}} numberOfLines={1} ellipsizeMode='tail'>{product.name}</Text>
+
+      </View> 
+      </View>
+      </TouchableOpacity>
+     )
+    }
   return (
     <View style={styles.container}>
-        {/* <View style={{backgroundColor:'#EF4444',padding:10,flexDirection:'row',
-        alignItems:'center',justifyContent:'space-between'}}>
-        <TouchableOpacity onPress={()=>navigation('back')}>
-        <Entypo  name="arrow-long-left" size={26} color="#fff" style={{marginRight:5}}/>
+       <View >
+  <FlatList 
+   data={subCategories}
+   horizontal
+   showsHorizontalScrollIndicator={false}
+   renderItem={({item})=><CategoryCard  product={item}/>}
+   
+   contentContainerStyle={{paddingBottom:15,marginTop:10}}
+   
+   />
+
+  </View>
        
-        </TouchableOpacity> 
-        <View style={{justifyContent:'flex-end',}}>
-            <TouchableOpacity>
-          <MaterialIcons  name="filter-list-alt" size={30} color="#fff" /> 
-            </TouchableOpacity>
-        </View>
-        </View> */}
       <View style={{flex:1}}>
   <FlatList 
    data={sampleData}
@@ -99,5 +124,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 1,  
         elevation: 0.4
+         },
+         Categorycard:{
+          flexDirection:'row',
+          backgroundColor:'dodgerblue',
+          alignItems:'center',
+          borderRadius:10,
+          marginHorizontal:4,
+          padding:4,
+          fontFamily:'Roboto-Bold'
          }
+
 })

@@ -3,7 +3,7 @@ import React,{useState} from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import {sampleData} from './data'
+import {sampleData} from '../data'
 // import LottieView from 'lottie-react-native';
 const BussinessScreen = ({navigation}) => {
     const [referashing,setRefreshing]=useState(false)
